@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How it Works & Terms - leaseycam</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <a href="/" class="logo">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="logo-accent">
+        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+        <circle cx="12" cy="13" r="3"/>
+      </svg>
+      <span>leaseycam</span><span class="logo-dot"></span>
+    </a>
+    
+    <ul class="nav-links">
+      <li><a href="/">Catalog</a></li>
+      <li><a href="/terms.html" class="active">How it works</a></li>
+      <li><a href="/bookings.html" id="bookings-link" style="display: none;">My Bookings</a></li>
+      <li><a href="/admin.html" id="admin-link" style="display: none;">Admin Panel</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <!-- Dark mode toggle -->
+      <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Theme">
+        <svg id="theme-sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg id="theme-moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+
+      <div class="user-status" id="auth-status-container"></div>
+    </div>
+  </header>
+
+  <!-- Terms and Steps Page -->
+  <main>
+    <div class="terms-wrapper">
+      <h1>How it Works</h1>
+      <p class="terms-intro">Renting professional camera gear has never been so seamless. Our step-by-step process keeps it simple.</p>
+
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-info">
+          <h3>Choose Rental Dates & Gear</h3>
+          <p>Select your start and end dates in the date banner. The catalog dynamically hides any gear currently out on hire. Add your desired camera bodies, lenses, and accessories to your cart.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-info">
+          <h3>Identity Upload & Checkout</h3>
+          <p>Go to checkout and upload a clear photo of your ID Card for verification. Click "Confirm & Book". No online payment is processed at this stage.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-info">
+          <h3>Admin Verification & Quote</h3>
+          <p>A shop admin will review your ID card and contact you by phone to confirm pickup details and quote the final security deposit (fully refundable upon return).</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <div class="step-info">
+          <h3>Pickup at Shop & Enjoy</h3>
+          <p>Visit the shop on your start date. Present your physical ID, pay the rental fee + security deposit, inspect your gear, and take it with you. Bring it back when done to collect your full deposit!</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 50px; border-top: 1.5px solid var(--border-color); padding-top: 30px;">
+        <h2 style="font-size: 1.3rem; margin-bottom: 15px;">Store Policies</h2>
+        <ul style="list-style: disc; margin-left: 20px; font-size: 0.95rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 10px;">
+          <li><strong>Pickup & Return Hours:</strong> Monday to Sunday, 09:00 AM - 08:00 PM.</li>
+          <li><strong>Late Return Fees:</strong> Late returns will be charged at 1.5x the standard daily rate for each day past due.</li>
+          <li><strong>Damage Liability:</strong> Renters are responsible for any scratches, drops, or water damage. A portion of the security deposit will be withheld if damage is found.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

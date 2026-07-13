@@ -1,0 +1,29 @@
+# Task List: Daily Lens & Gear
+
+- `[x]` Environment & Project Setup
+  - `[x]` Create `.env` file with MongoDB Atlas URI
+  - `[x]` Create `package.json` with dependencies
+  - `[x]` Run `npm install` to install dependencies
+- `[x]` Database & Backend Setup
+  - `[x]` Implement User, Equipment, and Order models
+  - `[x]` Create `seed.js` seeder script with week-02 data
+  - `[ ]` Run `npm run seed` to populate MongoDB Atlas (Requires password input in `.env`)
+- `[x]` Backend API Development
+  - `[x]` Implement `auth` routes (Login / Register / Me)
+  - `[x]` Implement `equipment` routes (Listing with date-overlap checking)
+  - `[x]` Implement `orders` routes (Booking creation & admin status management)
+  - `[x]` Build server entry point (`server.js`)
+- `[x]` Frontend Development & Styling (Leaseycam Premium Theme)
+  - `[x]` Design CSS system (`css/style.css`) with rounded corners, warm amber accents, animations, and Dark Mode support
+  - `[x]` Build Homepage & Catalog page (`index.html`)
+  - `[x]` Build Checkout page (`checkout.html`)
+  - `[x]` Build My Bookings portal (`bookings.html`)
+  - `[x]` Build Login / Register page (`login.html`)
+  - `[x]` Build Admin Dashboard (`admin.html`)
+  - `[x]` Build Steps & Conditions page (`terms.html`)
+- `[x]` Frontend Logic Integration
+  - `[x]` Integrate `js/app.js` for catalog querying, dates filtering, cart, login, and checkout
+  - `[x]` Integrate `js/admin.js` for admin controls and dashboard logic
+- `[ ]` Verification & Validation
+  - `[ ]` Run the app locally
+  - `[ ]` Verify user login, catalog dates filtering, cart drawer, ID Card upload, booking flow, and admin dashboard
