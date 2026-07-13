@@ -55,3 +55,15 @@ A high-fidelity, premium camera and lens rental web platform built using a Node.
    Open `http://localhost:5000` to interact with the application.
 
 ---
+
+## 👥 Test Credentials / บัญชีทดสอบระบบ
+
+หลังจากทำ Database Seeding แล้ว สามารถใช้บัญชีต่อไปนี้ในการเข้าสู่ระบบเพื่อทดสอบฟังก์ชันต่าง ๆ ได้:
+
+### 🛡️ Shop Admin (ผู้ดูแลระบบร้าน)
+- **Email:** `suchat@email.com`
+- **Password:** `suchat456`
+
+### 👤 Customer (ผู้ใช้งานทั่วไป)
+- **Email:** `somchai@email.com`
+- **Password:** `somchai123`
