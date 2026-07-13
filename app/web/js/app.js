@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initCheckoutPage();
   } else if (path.includes('bookings.html')) {
     initBookingsPage();
+  } else if (path.includes('detail.html')) {
+    initDetailPage();
   }
 });
 
@@ -36,6 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function initTheme() {
   const savedTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
+  if (savedTheme === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
   
   const sunIcon = document.getElementById('theme-sun-icon');
   const moonIcon = document.getElementById('theme-moon-icon');
@@ -56,6 +63,11 @@ function toggleTheme() {
   const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
   
   document.documentElement.setAttribute('data-theme', newTheme);
+  if (newTheme === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
   localStorage.setItem('theme', newTheme);
   
   const sunIcon = document.getElementById('theme-sun-icon');
@@ -322,17 +334,23 @@ function filterCatalog() {
     return `
       <div class="equipment-card" data-id="${item._id}">
         <span class="card-badge">${item.category}</span>
-        <div class="card-img-placeholder">
-          <img src="${item.imageUrl || '/images/body.png'}" alt="${item.name}">
-        </div>
-        <div class="card-brand">${item.brand}</div>
-        <h4 class="card-title">${item.name}</h4>
-        <div class="card-footer">
-          <div class="card-price">
-            <span class="price-num">${item.pricePerDay.toLocaleString()} ฿</span>
-            <span class="price-unit">per day</span>
+        <a href="/detail.html?id=${item._id}">
+          <div class="card-img-placeholder">
+            <img src="${item.imageUrl || '/images/body.png'}" alt="${item.name}">
           </div>
-          <button class="btn ${btnClass}" onclick="addToCart('${item._id}')" ${disabledAttr}>${btnText}</button>
+        </a>
+        <div class="card-content-area">
+          <div class="card-brand">${item.brand}</div>
+          <h4 class="card-title">
+            <a href="/detail.html?id=${item._id}" style="color: inherit; text-decoration: none;">${item.name}</a>
+          </h4>
+          <div class="card-footer">
+            <div class="card-price">
+              <span class="price-num">${item.pricePerDay.toLocaleString()} ฿</span>
+              <span class="price-unit">per day</span>
+            </div>
+            <button class="btn ${btnClass}" onclick="addToCart('${item._id}')" ${disabledAttr}>${btnText}</button>
+          </div>
         </div>
       </div>
     `;
@@ -526,13 +544,16 @@ function renderCheckoutSummary() {
 
   if (listContainer) {
     listContainer.innerHTML = cart.map(item => `
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--border-color);">
-        <div>
-          <div style="font-weight: 700;">${item.name}</div>
-          <div style="font-size: 0.8rem; color: var(--text-secondary);">${item.category} | ${item.pricePerDay.toLocaleString()} ฿/Day</div>
+      <div class="checkout-item-row">
+        <div class="checkout-item-img">
+          <img src="${item.imageUrl || '/images/body.png'}" alt="${item.name}">
         </div>
-        <div style="font-weight: 700; color: var(--primary-accent);">
-          ${(item.pricePerDay * rentalDays).toLocaleString()} ฿
+        <div class="checkout-item-details">
+          <div class="checkout-item-name">${item.name}</div>
+          <div style="font-size: 0.8rem; color: var(--text-secondary);">${item.category} | ${item.pricePerDay.toLocaleString()} ฿/Day</div>
+          <div class="checkout-item-price">
+            ${(item.pricePerDay * rentalDays).toLocaleString()} ฿
+          </div>
         </div>
       </div>
     `).join('');
@@ -911,4 +932,367 @@ async function handleRegister(e) {
       errorMsg.style.display = 'block';
     }
   }
+}
+
+// ==========================================
+// 8. Product Details Page Initialization
+// ==========================================
+async function initDetailPage() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get('id');
+  if (!id) {
+    window.location.href = '/';
+    return;
+  }
+
+  // Bind date values
+  const startInput = document.getElementById('rent-start-date');
+  const endInput = document.getElementById('rent-end-date');
+  if (startInput && endInput) {
+    startInput.value = selectedStartDate;
+    endInput.value = selectedEndDate;
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/api/equipment/${id}`);
+    if (!res.ok) {
+      alert('Equipment item not found.');
+      window.location.href = '/';
+      return;
+    }
+    const product = await res.json();
+    
+    // Render details
+    renderProductDetails(product);
+
+    // Setup promotion card triggers
+    setupPromoCardClick(product);
+
+    // Setup input listeners
+    if (startInput && endInput) {
+      startInput.addEventListener('change', (e) => {
+        selectedStartDate = e.target.value;
+        localStorage.setItem('startDate', selectedStartDate);
+        updateDetailPricing(product);
+        checkDetailAvailability(product._id);
+      });
+      endInput.addEventListener('change', (e) => {
+        selectedEndDate = e.target.value;
+        localStorage.setItem('endDate', selectedEndDate);
+        updateDetailPricing(product);
+        checkDetailAvailability(product._id);
+      });
+    }
+
+    // Tabs listener for pickup methods
+    const tabs = ['btn-pickup-shop', 'btn-pickup-messenger'];
+    tabs.forEach(tabId => {
+      const el = document.getElementById(tabId);
+      if (el) {
+        el.addEventListener('click', () => {
+          tabs.forEach(t => document.getElementById(t)?.classList.remove('active'));
+          el.classList.add('active');
+        });
+      }
+    });
+
+    // Check initial availability
+    checkDetailAvailability(product._id);
+
+    // Book CTA trigger
+    const bookBtn = document.getElementById('detail-book-btn');
+    if (bookBtn) {
+      bookBtn.addEventListener('click', () => {
+        if (!selectedStartDate || !selectedEndDate) {
+          alert('Please select rental dates first.');
+          return;
+        }
+
+        const inCart = cart.some(item => item.equipmentId === product._id);
+        if (!inCart) {
+          cart.push({
+            equipmentId: product._id,
+            name: product.name,
+            pricePerDay: product.pricePerDay,
+            category: product.category,
+            imageUrl: product.imageUrl
+          });
+          localStorage.setItem('cart', JSON.stringify(cart));
+          updateCartBadge();
+          renderCartDrawer();
+        }
+        window.location.href = '/checkout.html';
+      });
+    }
+
+  } catch (err) {
+    console.error("Error loading product detail page:", err);
+  }
+}
+
+function renderProductDetails(product) {
+  // Text details
+  const categoryLabel = document.getElementById('breadcrumb-category');
+  if (categoryLabel) {
+    categoryLabel.textContent = product.category;
+    categoryLabel.href = `/?category=${product.category}`;
+  }
+  const nameLabel = document.getElementById('breadcrumb-product');
+  if (nameLabel) nameLabel.textContent = product.name;
+  
+  const titleEl = document.getElementById('detail-product-name');
+  if (titleEl) titleEl.textContent = product.name;
+
+  const priceEl = document.getElementById('detail-product-price');
+  if (priceEl) priceEl.textContent = `${product.pricePerDay.toLocaleString()} บาท/วัน`;
+
+  const mainImg = document.getElementById('detail-main-img');
+  if (mainImg) mainImg.src = product.imageUrl || '/images/body.png';
+
+  // Available badge
+  const badgeEl = document.getElementById('detail-badge-status');
+  if (badgeEl) {
+    const isAvail = product.status === 'available';
+    badgeEl.textContent = isAvail ? 'Available' : product.status;
+    badgeEl.className = isAvail ? 'card-badge badge-available' : 'card-badge status-badge status-pending';
+  }
+
+  // Thumbnails row
+  const thumbsContainer = document.getElementById('detail-thumb-gallery');
+  if (thumbsContainer) {
+    const imgUrl = product.imageUrl || '/images/body.png';
+    const thumbs = [
+      imgUrl,
+      imgUrl,
+      imgUrl,
+      imgUrl
+    ];
+    thumbsContainer.innerHTML = thumbs.map((url, index) => `
+      <div class="gallery-thumb ${index === 0 ? 'active' : ''}" onclick="selectGalleryThumb(this, '${url}')">
+        <img src="${url}" alt="Angle view ${index + 1}">
+      </div>
+    `).join('');
+  }
+
+  // Render Promo Estimates
+  const p4 = document.getElementById('promo-calc-4');
+  const p4avg = document.getElementById('promo-calc-4-avg');
+  const p7 = document.getElementById('promo-calc-7');
+  const p7avg = document.getElementById('promo-calc-7-avg');
+  const p10 = document.getElementById('promo-calc-10');
+  const p10avg = document.getElementById('promo-calc-10-avg');
+
+  const baseRate = product.pricePerDay;
+  if (p4) p4.textContent = `${(baseRate * 4 * 0.75).toLocaleString()}฿`;
+  if (p4avg) p4avg.textContent = `เฉลี่ย ${Math.round(baseRate * 0.75).toLocaleString()} ฿/วัน`;
+  if (p7) p7.textContent = `${(baseRate * 7 * 0.71).toLocaleString()}฿`;
+  if (p7avg) p7avg.textContent = `เฉลี่ย ${Math.round(baseRate * 0.71).toLocaleString()} ฿/วัน`;
+  if (p10) p10.textContent = `${(baseRate * 10 * 0.65).toLocaleString()}฿`;
+  if (p10avg) p10avg.textContent = `เฉลี่ย ${Math.round(baseRate * 0.65).toLocaleString()} ฿/วัน`;
+
+  // Specs & Accessories lists
+  const specList = document.getElementById('detail-spec-list');
+  const accList = document.getElementById('detail-accessories-list');
+
+  const category = product.category.toLowerCase();
+  let specsHtml = '';
+  let accHtml = '';
+
+  if (category.includes('body') || category.includes('camera')) {
+    specsHtml = `
+      <li>เซนเซอร์ CMOS ฟูลเฟรม 24.2 ล้านพิกเซล</li>
+      <li>บันทึกวิดีโอภายในสูงสุด 4K60p 10-bit พร้อม C-Log 3</li>
+      <li>ระบบตรวจจับและโฟกัสอัตโนมัติความเร็วสูง (Dual Pixel CMOS AF II)</li>
+      <li>ระบบกันสั่นในตัวบอดี้ 5 แกน ชดเชยสูงสุด 8 สต็อป</li>
+      <li>ถ่ายภาพต่อเนื่องสูงสุด 40 fps ด้วยชัตเตอร์อิเล็กทรอนิกส์</li>
+    `;
+    accHtml = `
+      <li>แบตเตอรี่แท้ 2 ก้อน (พร้อมกล่องใส่)</li>
+      <li>แท่นชาร์จแบตเตอรี่ พร้อมสาย AC</li>
+      <li>กระเป๋ากล้องผ้าใบกันกระแทกอย่างดี</li>
+      <li>สายคล้องคอตรงรุ่น</li>
+      <li>SD Card 64GB Extreme Pro 170MB/s</li>
+    `;
+  } else if (category.includes('lens')) {
+    specsHtml = `
+      <li>โครงสร้างชิ้นเลนส์ประสิทธิภาพสูงพร้อมชิ้นเลนส์พิเศษ ED</li>
+      <li>รูรับแสงกว้างสุดคงที่ f/2.8 เพื่อการถ่ายภาพในที่แสงน้อยและโบเก้สวยงาม</li>
+      <li>มอเตอร์โฟกัสอัตโนมัติรวดเร็วและแม่นยำ ไร้เสียงรบกวน</li>
+      <li>เคลือบสารป้องกันแสงสะท้อนและแสงแฟลร์ขั้นสูง</li>
+      <li>โครงสร้างป้องกันฝุ่นละอองและหยดน้ำ (Weather-sealed)</li>
+    `;
+    accHtml = `
+      <li>ฝาปิดหน้าเลนส์ (Lens Front Cap)</li>
+      <li>ฝาปิดท้ายเลนส์ (Lens Rear Cap)</li>
+      <li>ฮูดบังแสงเลนส์ (Lens Hood)</li>
+      <li>ฟิลเตอร์ป้องกันหน้าเลนส์ (UV Filter)</li>
+      <li>กระเป๋าใส่เลนส์บุนุ่มกันกระแทก</li>
+    `;
+  } else {
+    specsHtml = `
+      <li>ชิ้นส่วนโลหะแข็งแรงทนทาน น้ำหนักเบา</li>
+      <li>ส่งต่อข้อมูลและกระแสไฟเต็มระบบอัตโนมัติ</li>
+      <li>ขั้วต่อเคลือบทองป้องกันสัญญาณรบกวน</li>
+    `;
+    accHtml = `
+      <li>ฝาปิดหน้าและหลังป้องกันฝุ่น</li>
+      <li>กระเป๋าเก็บอแดปเตอร์ขนาดพกพา</li>
+    `;
+  }
+
+  if (specList) specList.innerHTML = specsHtml;
+  if (accList) accList.innerHTML = accHtml;
+
+  // Initialize Price calculation
+  updateDetailPricing(product);
+}
+
+function selectGalleryThumb(el, url) {
+  document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const mainImg = document.getElementById('detail-main-img');
+  if (mainImg) mainImg.src = url;
+}
+
+function updateDetailPricing(product) {
+  const daysCalc = document.getElementById('detail-days-calc');
+  const feeCalc = document.getElementById('detail-fee-calc');
+  if (!daysCalc || !feeCalc) return;
+
+  if (!selectedStartDate || !selectedEndDate) {
+    daysCalc.textContent = '-';
+    feeCalc.textContent = '-';
+    return;
+  }
+
+  const start = new Date(selectedStartDate);
+  const end = new Date(selectedEndDate);
+  const diff = Math.abs(end - start);
+  const rentalDays = Math.ceil(diff / (1000 * 60 * 60 * 24)) || 1;
+
+  daysCalc.textContent = `${rentalDays} วัน`;
+  
+  // Calculate with promo discounts
+  let discount = 1.0;
+  if (rentalDays >= 10) discount = 0.65;
+  else if (rentalDays >= 7) discount = 0.71;
+  else if (rentalDays >= 4) discount = 0.75;
+
+  const totalFee = Math.round(product.pricePerDay * rentalDays * discount);
+  feeCalc.textContent = `${totalFee.toLocaleString()} บาท`;
+
+  // Display savings discount
+  const standardFee = product.pricePerDay * rentalDays;
+  const discountAmt = standardFee - totalFee;
+  const discountRow = document.getElementById('detail-discount-row');
+  const discountCalc = document.getElementById('detail-discount-calc');
+  if (discountAmt > 0) {
+    if (discountRow && discountCalc) {
+      discountRow.style.display = 'flex';
+      discountCalc.textContent = `-${discountAmt.toLocaleString()} บาท (${Math.round((1 - discount) * 100)}%)`;
+    }
+  } else {
+    if (discountRow) discountRow.style.display = 'none';
+  }
+
+  // Active promo card highlights
+  const card4 = document.getElementById('promo-card-4');
+  const card7 = document.getElementById('promo-card-7');
+  const card10 = document.getElementById('promo-card-10');
+  
+  if (card4) card4.classList.remove('active');
+  if (card7) card7.classList.remove('active');
+  if (card10) card10.classList.remove('active');
+
+  if (rentalDays === 4 && card4) card4.classList.add('active');
+  else if (rentalDays === 7 && card7) card7.classList.add('active');
+  else if (rentalDays === 10 && card10) card10.classList.add('active');
+}
+
+async function checkDetailAvailability(productId) {
+  const statusText = document.getElementById('detail-status-text');
+  const bookBtn = document.getElementById('detail-book-btn');
+  if (!statusText || !bookBtn) return;
+
+  if (!selectedStartDate || !selectedEndDate) {
+    statusText.textContent = "กรุณาเลือกวันที่เช่าก่อนทำการจอง";
+    statusText.className = "drawer-dates-alert";
+    statusText.style.backgroundColor = "var(--surface-container)";
+    statusText.style.color = "var(--text-secondary)";
+    statusText.style.borderColor = "var(--border-color)";
+    bookBtn.disabled = true;
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/api/equipment?startDate=${selectedStartDate}&endDate=${selectedEndDate}`);
+    if (res.ok) {
+      const availableItems = await res.json();
+      const isAvailable = availableItems.some(item => item._id === productId);
+      if (isAvailable) {
+        statusText.textContent = "อุปกรณ์ว่าง สามารถทำรายการจองได้";
+        statusText.className = "drawer-dates-alert";
+        statusText.style.backgroundColor = "var(--tertiary-container)";
+        statusText.style.color = "var(--tertiary)";
+        statusText.style.borderColor = "rgba(16, 185, 129, 0.2)";
+        bookBtn.disabled = false;
+      } else {
+        statusText.textContent = "อุปกรณ์ไม่ว่างในวันที่เลือก (ถูกเช่าแล้ว)";
+        statusText.className = "drawer-dates-alert";
+        statusText.style.backgroundColor = "var(--error-container)";
+        statusText.style.color = "var(--on-error-container)";
+        statusText.style.borderColor = "rgba(186, 26, 26, 0.2)";
+        bookBtn.disabled = true;
+      }
+    }
+  } catch (err) {
+    console.error("Availability check failed:", err);
+  }
+}
+
+function setupPromoCardClick(product) {
+  const cards = [
+    { id: 'promo-card-4', days: 4 },
+    { id: 'promo-card-7', days: 7 },
+    { id: 'promo-card-10', days: 10 }
+  ];
+
+  cards.forEach(card => {
+    const el = document.getElementById(card.id);
+    if (el) {
+      el.addEventListener('click', () => {
+        // If no start date is selected, default to today
+        let start = selectedStartDate;
+        if (!start) {
+          const today = new Date();
+          const yyyy = today.getFullYear();
+          const mm = String(today.getMonth() + 1).padStart(2, '0');
+          const dd = String(today.getDate()).padStart(2, '0');
+          start = `${yyyy}-${mm}-${dd}`;
+          selectedStartDate = start;
+          localStorage.setItem('startDate', start);
+          const startInput = document.getElementById('rent-start-date');
+          if (startInput) startInput.value = start;
+        }
+
+        // Calculate end date = start date + card.days
+        const startDateObj = new Date(start);
+        const endDateObj = new Date(startDateObj.getTime() + card.days * 24 * 60 * 60 * 1000);
+        
+        const yyyy = endDateObj.getFullYear();
+        const mm = String(endDateObj.getMonth() + 1).padStart(2, '0');
+        const dd = String(endDateObj.getDate()).padStart(2, '0');
+        const endStr = `${yyyy}-${mm}-${dd}`;
+
+        selectedEndDate = endStr;
+        localStorage.setItem('endDate', endStr);
+        const endInput = document.getElementById('rent-end-date');
+        if (endInput) endInput.value = endStr;
+
+        // Recalculate and update UI
+        updateDetailPricing(product);
+        checkDetailAvailability(product._id);
+      });
+    }
+  });
 }

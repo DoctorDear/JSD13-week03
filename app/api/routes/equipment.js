@@ -43,6 +43,19 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET /api/equipment/:id - Get a single equipment item by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const item = await Equipment.findById(req.params.id);
+    if (!item) {
+      return res.status(404).json({ message: 'Equipment not found' });
+    }
+    res.json(item);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 // GET /api/admin/equipment - Get all equipment for admin (including maintenance)
 router.get('/admin/all', authenticateUser, async (req, res) => {
   if (req.user.role !== 'admin') {

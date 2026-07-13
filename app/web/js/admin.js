@@ -276,11 +276,9 @@ function renderInventoryTable() {
 
   if (allEquipment.length === 0) {
     tbody.innerHTML = `
-      <tr>
-        <td colspan="6" style="text-align: center; color: var(--text-secondary); padding: 30px;">
-          Inventory is empty.
-        </td>
-      </tr>
+      <div style="text-align: center; color: var(--text-secondary); padding: 40px;">
+        Inventory is empty.
+      </div>
     `;
     return;
   }
@@ -289,29 +287,35 @@ function renderInventoryTable() {
     const isAvailable = item.status === 'available';
 
     return `
-      <tr data-eq-id="${item._id}">
-        <td style="font-weight:700;">${item.name}</td>
-        <td>${item.brand}</td>
-        <td><span class="status-badge" style="background-color:var(--bg-color); color:var(--text-primary); border:1px solid var(--border-color);">${item.category}</span></td>
-        <td>
-          <input type="number" class="admin-table-price-input" id="price-input-${item._id}" value="${item.pricePerDay}">
-        </td>
-        <td>
-          <div style="display:flex; align-items:center; gap:8px;">
+      <div class="inventory-item" data-eq-id="${item._id}">
+        <div class="inventory-info-cell">
+          <div class="inventory-img">
+            <img src="${item.imageUrl || '/images/body.png'}" alt="${item.name}">
+          </div>
+          <div class="inventory-text-details">
+            <span class="inventory-name">${item.name}</span>
+            <span class="inventory-category">Brand: ${item.brand} | Category: ${item.category}</span>
+            <div style="margin-top: 8px;">
+              <span class="status-badge ${isAvailable ? 'status-active' : 'status-pending'}" id="status-label-${item._id}">● ${item.status}</span>
+            </div>
+          </div>
+        </div>
+        <div class="inventory-controls-cell">
+          <div class="price-input-wrapper">
+            <label>Daily Price (THB)</label>
+            <input type="number" class="admin-table-price-input" id="price-input-${item._id}" value="${item.pricePerDay}">
+          </div>
+          <button class="btn btn-secondary" style="padding: 10px 16px;" onclick="updateEquipmentPrice('${item._id}')">Save Price</button>
+          
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+            <label style="font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; color: var(--text-secondary);">Status</label>
             <label class="switch">
               <input type="checkbox" id="status-switch-${item._id}" ${isAvailable ? 'checked' : ''} onchange="toggleEquipmentStatus('${item._id}')">
               <span class="slider"></span>
             </label>
-            <span style="font-size:0.85rem; font-weight:600;" id="status-label-${item._id}">
-              ${item.status}
-            </span>
           </div>
-        </td>
-        <td>
-          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem; border-radius: 8px;" 
-            onclick="updateEquipmentPrice('${item._id}')">Save Price</button>
-        </td>
-      </tr>
+        </div>
+      </div>
     `;
   }).join('');
 }

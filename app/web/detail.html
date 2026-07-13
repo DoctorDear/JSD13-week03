@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details - Daily Lens & Gear</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- TopNavBar Header -->
+  <header>
+    <div class="header-container">
+      <a href="/" class="logo-wrapper">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);">
+          <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+          <circle cx="12" cy="13" r="3"/>
+        </svg>
+        <span class="logo-text">Daily Lens & Gear</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="/" class="active">Catalog</a></li>
+        <li><a href="/terms.html">How it works</a></li>
+        <li><a href="/bookings.html" id="bookings-link" style="display: none;">My Bookings</a></li>
+        <li><a href="/admin.html" id="admin-link" style="display: none;">Admin Panel</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <!-- Theme Toggle -->
+        <button class="icon-btn" id="theme-toggle-btn" aria-label="Toggle Theme">
+          <span class="material-symbols-outlined" id="theme-moon-icon">dark_mode</span>
+          <span class="material-symbols-outlined" id="theme-sun-icon" style="display:none;">light_mode</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button class="icon-btn" id="open-cart-btn" aria-label="Open Cart">
+          <span class="material-symbols-outlined">shopping_cart</span>
+          <span class="icon-badge" id="cart-badge-count">0</span>
+        </button>
+
+        <div class="user-status" id="auth-status-container"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Product Details Content -->
+  <main>
+    <!-- Breadcrumbs -->
+    <ul class="breadcrumbs">
+      <li><a href="/">Catalog</a></li>
+      <li><span class="material-symbols-outlined" style="font-size: 14px;">chevron_right</span></li>
+      <li><a href="#" id="breadcrumb-category">Category</a></li>
+      <li><span class="material-symbols-outlined" style="font-size: 14px;">chevron_right</span></li>
+      <li><span id="breadcrumb-product" style="font-weight: 700; color: var(--primary);">Product Name</span></li>
+    </ul>
+
+    <!-- Detail Layout Grid -->
+    <div class="detail-layout">
+      <!-- Left Column: Gallery & Options List -->
+      <section>
+        <div class="product-gallery-main">
+          <img id="detail-main-img" src="/images/body.png" alt="Main Product Shot">
+          <span class="card-badge badge-available" id="detail-badge-status" style="top: 20px; left: 20px;">Available</span>
+        </div>
+        
+        <!-- Gallery Thumbnails -->
+        <div class="product-gallery-thumbs" id="detail-thumb-gallery">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- Checklist info box -->
+        <div class="info-checklist-box">
+          <div class="checklist-item">
+            <span class="material-symbols-outlined checklist-icon">storefront</span>
+            <div class="checklist-text">
+              <h4>รับด้วยตัวเองที่หน้าร้าน</h4>
+              <p>รับอุปกรณ์ทดสอบด้วยตัวเองที่หน้าร้าน ไม่มีค่าบริการเพิ่มเติม</p>
+            </div>
+          </div>
+          <div class="checklist-item">
+            <span class="material-symbols-outlined checklist-icon">local_shipping</span>
+            <div class="checklist-text">
+              <h4>รับอุปกรณ์ได้ที่บ้าน</h4>
+              <p>จัดส่งด่วนแมสเซนเจอร์กรุงเทพและปริมณฑล (มีค่าบริการเพิ่มเติม)</p>
+            </div>
+          </div>
+
+          <div class="checklist-item">
+            <span class="material-symbols-outlined checklist-icon">schedule</span>
+            <div class="checklist-text">
+              <h4>คืนอุปกรณ์ได้ 24 ชั่วโมง</h4>
+              <p>คืนอุปกรณ์ที่หน้าร้านได้ตลอดเวลา ฟรีไม่มีค่าบริการเพิ่มเติม</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Details & Rental Date Selector -->
+      <section>
+        <div class="checkout-card" style="margin-bottom: 0;">
+          <h1 class="font-display-lg" id="detail-product-name" style="font-size: 32px; line-height: 40px; margin-bottom: 12px;">Product Title</h1>
+          <h2 class="price-num" id="detail-product-price" style="font-size: 24px; margin-bottom: 16px;">1,200 บาท/วัน</h2>
+          
+          <!-- Promo Cards -->
+          <div style="font-size: 12px; font-weight: 700; color: var(--text-primary); text-transform: uppercase; font-family: var(--font-mono); letter-spacing: 0.05em; margin-bottom: 8px;">โปรโมชั่น ยิ่งเช่านาน ยิ่งคุ้ม</div>
+          <div class="promo-box-container">
+            <div class="promo-card" id="promo-card-4">
+              <span class="promo-badge">ประหยัด 25%</span>
+              <p>เช่า 4 วัน</p>
+              <p id="promo-calc-4">3,600฿</p>
+              <p id="promo-calc-4-avg">เฉลี่ย 900 ฿/วัน</p>
+            </div>
+            <div class="promo-card" id="promo-card-7">
+              <span class="promo-badge">ประหยัด 29%</span>
+              <p>เช่า 7 วัน</p>
+              <p id="promo-calc-7">6,000฿</p>
+              <p id="promo-calc-7-avg">เฉลี่ย 857 ฿/วัน</p>
+            </div>
+            <div class="promo-card" id="promo-card-10">
+              <span class="promo-badge">ประหยัด 35%</span>
+              <p>เช่า 10 วัน</p>
+              <p id="promo-calc-10">7,800฿</p>
+              <p id="promo-calc-10-avg">เฉลี่ย 780 ฿/วัน</p>
+            </div>
+          </div>
+
+          <!-- Pickup method tabs pills -->
+          <div style="font-size: 12px; font-weight: 700; color: var(--text-primary); text-transform: uppercase; font-family: var(--font-mono); letter-spacing: 0.05em; margin-bottom: 8px;">วิธีการรับอุปกรณ์</div>
+          <div class="tabs-pills">
+            <button class="tabs-pill active" id="btn-pickup-shop">รับเองที่ร้าน</button>
+            <button class="tabs-pill" id="btn-pickup-messenger">ส่ง Messenger</button>
+          </div>
+
+          <!-- Date Selector -->
+          <div style="display: flex; gap: var(--gutter); margin-bottom: 20px;">
+            <div class="form-group" style="flex: 1; margin-bottom: 0;">
+              <label for="rent-start-date">วันที่รับ</label>
+              <input type="date" id="rent-start-date" required>
+            </div>
+            <div class="form-group" style="flex: 1; margin-bottom: 0;">
+              <label for="rent-end-date">วันที่คืน</label>
+              <input type="date" id="rent-end-date" required>
+            </div>
+          </div>
+
+          <!-- Time Picker Radios -->
+          <div style="font-size: 12px; font-weight: 700; color: var(--text-primary); text-transform: uppercase; font-family: var(--font-mono); letter-spacing: 0.05em; margin-bottom: 8px;">เวลารับ / คืน</div>
+          <div class="time-picker-grid">
+            <label class="time-picker-item">
+              <input type="radio" name="pickup-time" value="11:30" checked>
+              <span>หลัง 11:30 น.</span>
+            </label>
+            <label class="time-picker-item">
+              <input type="radio" name="pickup-time" value="14:00">
+              <span>ก่อน 14:00 น.</span>
+            </label>
+            <label class="time-picker-item">
+              <input type="radio" name="pickup-time" value="17:00">
+              <span>หลัง 17:00 น.</span>
+            </label>
+          </div>
+
+          <!-- Sticky price breakdown box -->
+          <div class="info-checklist-box" style="margin-top: 24px; padding: 20px; background-color: var(--surface-low);">
+            <div class="summary-row" style="margin-bottom: 4px;">
+              <span>จำนวนวัน:</span>
+              <span id="detail-days-calc" style="font-weight: 700; color: var(--text-primary);">1 วัน</span>
+            </div>
+            <div class="summary-row" style="margin-bottom: 4px;">
+              <span>รวมค่าเช่า:</span>
+              <span id="detail-fee-calc" style="font-weight: 700; color: var(--primary);">1,200 บาท</span>
+            </div>
+            <div class="summary-row" id="detail-discount-row" style="display: none; margin-bottom: 0; color: var(--tertiary); font-weight: 600;">
+              <span>ประหยัดได้:</span>
+              <span id="detail-discount-calc">-0 บาท</span>
+            </div>
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 8px 0;">
+            <div class="drawer-dates-alert" id="detail-status-text" style="margin-bottom: 12px; font-size: 12px; padding: 10px;">
+              อุปกรณ์ว่าง สามารถทำรายการจองได้
+            </div>
+            <button class="btn btn-primary" id="detail-book-btn" style="width: 100%; height: 50px; font-size: 16px; border-radius: var(--radius-lg);">
+              เลือกอุปกรณ์นี้ | ทำรายการจอง >>
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Specifications & Included Accessories -->
+    <div class="specs-accessories-grid">
+      <div>
+        <h2 class="font-headline-md" style="margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">Specification</h2>
+        <ul class="spec-list" id="detail-spec-list">
+          <!-- Dynamic specs -->
+        </ul>
+      </div>
+      <div>
+        <h2 class="font-headline-md" style="margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">อุปกรณ์ที่ให้ไปด้วย</h2>
+        <ul class="spec-list" id="detail-accessories-list">
+          <!-- Dynamic accessories -->
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <!-- Shopping Cart Slide-out Drawer (Standard) -->
+  <div class="drawer-overlay" id="cart-drawer-overlay"></div>
+  <div class="cart-drawer" id="shopping-cart-drawer">
+    <div class="drawer-header">
+      <h2>Rental Cart</h2>
+      <button class="close-drawer-btn" id="close-cart-btn" aria-label="Close Shopping Cart">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    
+    <div class="drawer-body" id="cart-items-container">
+      <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+        Your cart is empty.
+      </div>
+    </div>
+
+    <div class="drawer-footer">
+      <div class="drawer-dates-alert" id="cart-duration-display" style="display: none;">
+        Rental Selected: 0 days (Choose dates)
+      </div>
+      <div class="summary-row">
+        <span>Rental Subtotal</span>
+        <span id="cart-subtotal-display">0 THB</span>
+      </div>
+      <div class="summary-row">
+        <span>Security Deposit (Est.)</span>
+        <span id="cart-deposit-display">0 THB</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total Payable</span>
+        <span id="cart-total-display">0 THB</span>
+      </div>
+      <button class="btn btn-primary" id="checkout-cart-btn" style="width: 100%; height: 50px;" disabled>
+        Book Equipment
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-surface-container-high border-t border-outline-variant" style="background-color: var(--surface-high); border-top: 1px solid var(--border-color); margin-top: auto; padding: 48px 0;">
+    <div style="max-width: var(--max-width); margin: 0 auto; padding: 0 var(--margin); display: grid; grid-template-columns: 1fr; gap: var(--gutter); align-items: start;">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);">
+            <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+            <circle cx="12" cy="13" r="3"/>
+          </svg>
+          <span style="font-size: 18px; font-weight: 700;">Daily Lens & Gear</span>
+        </div>
+        <p class="font-body-md" style="color: var(--text-secondary); max-width: 400px;">Providing high-performance optical solutions for cinematography, photography, and creative professionals across SE Asia.</p>
+        <p class="font-label-sm" style="color: var(--text-secondary); margin-top: 16px;">© 2026 Daily Lens & Gear. Professional Rental Ecosystem.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Client-side JS -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

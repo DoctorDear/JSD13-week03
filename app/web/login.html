@@ -3,74 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In / Register - leaseycam</title>
+  <title>Sign In / Register - Daily Lens & Gear</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body class="shutter-bg min-h-screen flex flex-col">
 
-  <!-- Navigation Header -->
+  <!-- Header -->
   <header>
-    <a href="/" class="logo">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="logo-accent">
-        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
-        <circle cx="12" cy="13" r="3"/>
-      </svg>
-      <span>leaseycam</span><span class="logo-dot"></span>
-    </a>
-    
-    <ul class="nav-links">
-      <li><a href="/">Catalog</a></li>
-      <li><a href="/terms.html">How it works</a></li>
-    </ul>
+    <div class="header-container">
+      <a href="/" class="logo-wrapper">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);">
+          <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+          <circle cx="12" cy="13" r="3"/>
+        </svg>
+        <span class="logo-text">Daily Lens & Gear</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="/">Catalog</a></li>
+        <li><a href="/terms.html">How it works</a></li>
+      </ul>
 
-    <div class="nav-actions">
-      <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Theme">
-        <svg id="theme-sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
-          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-        <svg id="theme-moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
+      <div class="nav-actions">
+        <!-- Theme Toggle -->
+        <button class="icon-btn" id="theme-toggle-btn" aria-label="Toggle Theme">
+          <span class="material-symbols-outlined" id="theme-moon-icon">dark_mode</span>
+          <span class="material-symbols-outlined" id="theme-sun-icon" style="display:none;">light_mode</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- Login/Register Container -->
-  <main style="display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 160px);">
+  <!-- Login/Register Card -->
+  <main style="display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 160px); z-index: 1;">
     <div class="auth-container">
+      <!-- Branding Logo & Welcome -->
       <div class="auth-header">
-        <h2 style="font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 8px;">Welcome to leaseycam</h2>
-        <p style="color: var(--text-secondary); font-size: 0.9rem;">Sign in or create a new account to rent gear.</p>
+        <img alt="Daily Lens & Gear Logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUTVk01xeoochHpnWQ_aqgmv76GU7r-4OB7dmDfAjeamCmomP1Y0b86sMOJsBcOC6QSIzstjTqsSWFw4JLQfYYnqepKEZEeV7cdSr_hyzj_eigDTVtOHiQVHVNHtqayJHrkb24E4YSrvFDJzHO_j3MOUSjQ-px4NjCY7CGHl178QIVRivfmHy1nmjuxKyglQGIwr9T964cWSXC279UJVt1UhVF_l7EwHlF9K_0RRuHw689n1NlEDX6PVutm3E-lOCzkE7oue2SJUM">
+        <h2>Welcome Back</h2>
+        <p class="font-body-md" style="color: var(--text-secondary); margin-top: 8px;">Professional Camera Rental Portal</p>
       </div>
 
+      <!-- Tabs Toggle -->
       <div class="auth-tabs">
         <button class="auth-tab-btn active" id="login-tab-btn">Sign In</button>
         <button class="auth-tab-btn" id="register-tab-btn">Register</button>
       </div>
 
       <!-- Sign In Form -->
-      <form id="login-form">
+      <form id="login-form" style="display: flex; flex-direction: column; gap: 20px;">
         <div class="form-group">
           <label for="login-email">Email Address</label>
-          <input type="email" id="login-email" required placeholder="somchai@email.com">
+          <input type="email" id="login-email" required placeholder="name@professional.com">
         </div>
         <div class="form-group">
           <label for="login-password">Password</label>
           <input type="password" id="login-password" required placeholder="••••••••">
         </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">Sign In</button>
-        <div id="login-error-msg" style="color: var(--coral-red); font-size: 0.85rem; margin-top: 12px; text-align: center; display: none;"></div>
+        <button type="submit" class="btn btn-primary" style="margin-top: 10px; height: 50px;">
+          Sign In
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+        <div id="login-error-msg" class="auth-error-msg" style="display: none;"></div>
       </form>
 
       <!-- Register Form (Hidden by default) -->
-      <form id="register-form" style="display: none;">
+      <form id="register-form" style="display: none; flex-direction: column; gap: 20px;">
         <div class="form-group">
           <label for="register-name">Full Name</label>
           <input type="text" id="register-name" required placeholder="Somchai Jaidee">
         </div>
         <div class="form-group">
           <label for="register-email">Email Address</label>
-          <input type="email" id="register-email" required placeholder="somchai@email.com">
+          <input type="email" id="register-email" required placeholder="name@professional.com">
         </div>
         <div class="form-group">
           <label for="register-password">Password</label>
@@ -83,15 +88,18 @@
             <option value="admin">Shop Admin</option>
           </select>
         </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">Create Account</button>
-        <div id="register-error-msg" style="color: var(--coral-red); font-size: 0.85rem; margin-top: 12px; text-align: center; display: none;"></div>
+        <button type="submit" class="btn btn-primary" style="margin-top: 10px; height: 50px;">
+          Create Account
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+        <div id="register-error-msg" class="auth-error-msg" style="display: none;"></div>
       </form>
     </div>
   </main>
 
   <script src="/js/app.js"></script>
   <script>
-    // Tab Switching Logic
+    // Tab Switching Local Logic
     const loginTab = document.getElementById('login-tab-btn');
     const registerTab = document.getElementById('register-tab-btn');
     const loginForm = document.getElementById('login-form');
@@ -100,14 +108,14 @@
     loginTab.addEventListener('click', () => {
       loginTab.classList.add('active');
       registerTab.classList.remove('active');
-      loginForm.style.display = 'block';
+      loginForm.style.display = 'flex';
       registerForm.style.display = 'none';
     });
 
     registerTab.addEventListener('click', () => {
       registerTab.classList.add('active');
       loginTab.classList.remove('active');
-      registerForm.style.display = 'block';
+      registerForm.style.display = 'flex';
       loginForm.style.display = 'none';
     });
   </script>

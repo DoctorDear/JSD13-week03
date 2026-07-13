@@ -3,77 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>leaseycam - Premium Camera & Lens Rental</title>
+  <title>Daily Lens & Gear | Professional Rental Ecosystem</title>
   <meta name="description" content="Rent premium camera bodies, high-end lenses, flashes, and adapters online. Pay at pickup. Verified and approved.">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-  <!-- Navigation Header -->
+  <!-- TopNavBar Header -->
   <header>
-    <a href="/" class="logo">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="logo-accent">
-        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
-        <circle cx="12" cy="13" r="3"/>
-      </svg>
-      <span>leaseycam</span><span class="logo-dot"></span>
-    </a>
-    
-    <ul class="nav-links">
-      <li><a href="/" class="active">Catalog</a></li>
-      <li><a href="/terms.html">How it works</a></li>
-      <li><a href="/bookings.html" id="bookings-link" style="display: none;">My Bookings</a></li>
-      <li><a href="/admin.html" id="admin-link" style="display: none;">Admin Panel</a></li>
-    </ul>
-
-    <div class="nav-actions">
-      <!-- Dark mode toggle -->
-      <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Theme">
-        <svg id="theme-sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
-          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    <div class="header-container">
+      <a href="/" class="logo-wrapper">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);">
+          <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+          <circle cx="12" cy="13" r="3"/>
         </svg>
-        <svg id="theme-moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
+        <span class="logo-text">Daily Lens & Gear</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="/" class="active">Catalog</a></li>
+        <li><a href="/terms.html">How it works</a></li>
+        <li><a href="/bookings.html" id="bookings-link" style="display: none;">My Bookings</a></li>
+        <li><a href="/admin.html" id="admin-link" style="display: none;">Admin Panel</a></li>
+      </ul>
 
-      <!-- Cart Button -->
-      <button class="cart-icon-btn" id="open-cart-btn" aria-label="Open Shopping Cart">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
-        </svg>
-        <span class="cart-badge" id="cart-badge-count">0</span>
-      </button>
+      <div class="nav-actions">
+        <!-- Theme Toggle -->
+        <button class="icon-btn" id="theme-toggle-btn" aria-label="Toggle Theme">
+          <span class="material-symbols-outlined" id="theme-moon-icon">dark_mode</span>
+          <span class="material-symbols-outlined" id="theme-sun-icon" style="display:none;">light_mode</span>
+        </button>
 
-      <!-- Auth greeting -->
-      <div class="user-status" id="auth-status-container">
-        <a href="/login.html" class="btn btn-secondary" style="padding: 8px 18px; font-size: 0.85rem;">Sign In</a>
+        <!-- Cart Button -->
+        <button class="icon-btn" id="open-cart-btn" aria-label="Open Cart">
+          <span class="material-symbols-outlined">shopping_cart</span>
+          <span class="icon-badge" id="cart-badge-count">0</span>
+        </button>
+
+        <!-- Auth Status Greeting -->
+        <div class="user-status" id="auth-status-container">
+          <a href="/login.html" class="btn btn-secondary" style="padding: 8px 18px; font-size: 0.85rem;">Sign In</a>
+        </div>
       </div>
     </div>
   </header>
 
   <!-- Main Body Content -->
   <main>
-    <!-- Hero Date selector -->
-    <section class="hero-date-banner">
-      <div>
-        <h2>Select Your Rental Period</h2>
-        <p class="banner-desc">Please choose your dates. The catalog will update to show only available gear for this period.</p>
-      </div>
-      <div class="date-inputs-wrapper">
-        <div class="date-group">
-          <label for="rent-start-date">Start Rental Date</label>
-          <input type="date" id="rent-start-date" required>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuARP2is29FrDrecCdPMKzTYvJIPfdqyZU7aeJZ0eOpBL8Elqujpt_lAGymWdpCLKN33f1pY60eLUjWpFlJ3M4-AxeXpbZRumM3VYrqpUFC9m9O1lDJ_eDtDWtFhphcuA7A0To7kAihczneT7WXb1P8Yc5WR67Fir9sMRmN9WslbLT7XgjebxKj0TPApT52ANq43cP16QuumN75fTE-HwfYO5AnqOWarbfTGr8Arfxiv2D5AmA6XV44aRhi8mZ2zis6rYUAIRwDUPnM')"></div>
+      <div class="hero-content">
+        <h1 class="font-display-lg hero-title">Professional Gear for <span style="color: var(--primary);">Every Frame</span></h1>
+        <p class="font-body-lg hero-subtitle">Rent the world's most advanced imaging technology with transparent pricing, zero-fuss logistics, and professional support.</p>
+        
+        <!-- Date Selector Banner -->
+        <div class="date-selector-banner">
+          <div class="date-input-group">
+            <span class="material-symbols-outlined icon">calendar_today</span>
+            <div class="date-input-details">
+              <label for="rent-start-date">Start Date</label>
+              <input type="date" id="rent-start-date" required>
+            </div>
+          </div>
+          <div class="date-input-group">
+            <span class="material-symbols-outlined icon">calendar_today</span>
+            <div class="date-input-details">
+              <label for="rent-end-date">End Date</label>
+              <input type="date" id="rent-end-date" required>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="confirm-dates-btn" style="border-radius: var(--radius-lg); padding: 0 32px;">
+            <span class="material-symbols-outlined">search</span>
+            Search Available Gear
+          </button>
         </div>
-        <div class="date-group">
-          <label for="rent-end-date">End Rental Date</label>
-          <input type="date" id="rent-end-date" required>
-        </div>
-        <button class="btn btn-primary" id="confirm-dates-btn" style="height: 50px;">Check Availability</button>
       </div>
     </section>
 
-    <!-- Brands selection list -->
+    <!-- Brands Filter Row -->
+    <div class="section-header">
+      <div>
+        <h2 class="font-headline-lg" style="margin-bottom: 8px;">Available Equipment</h2>
+        <p class="font-body-md" style="color: var(--text-secondary);">Showing curated kits ready for immediate dispatch.</p>
+      </div>
+    </div>
+    
     <section class="brand-filters" id="brand-chips-list">
       <button class="brand-chip active" data-brand="">All Brands</button>
       <button class="brand-chip" data-brand="Canon">Canon</button>
@@ -83,7 +98,7 @@
       <button class="brand-chip" data-brand="Godox">Godox</button>
     </section>
 
-    <!-- Main catalog screen grid -->
+    <!-- Main Grid Layout -->
     <div class="catalog-layout">
       <!-- Category Side Filter -->
       <aside class="sidebar-filters">
@@ -111,12 +126,10 @@
       </aside>
 
       <!-- Catalog grid container -->
-      <section>
-        <div class="catalog-grid" id="equipment-grid-container">
-          <!-- Populated dynamically via JS -->
-          <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary);">
-            Loading products...
-          </div>
+      <section class="catalog-grid" id="equipment-grid-container">
+        <!-- Dynamic Content via JS -->
+        <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary);">
+          Loading products...
         </div>
       </section>
     </div>
@@ -126,12 +139,15 @@
   <div class="drawer-overlay" id="cart-drawer-overlay"></div>
   <div class="cart-drawer" id="shopping-cart-drawer">
     <div class="drawer-header">
-      <h2>Your Cart</h2>
-      <button class="close-drawer-btn" id="close-cart-btn" aria-label="Close Shopping Cart">&times;</button>
+      <h2>Rental Cart</h2>
+      <button class="close-drawer-btn" id="close-cart-btn" aria-label="Close Shopping Cart">
+        <span class="material-symbols-outlined">close</span>
+      </button>
     </div>
     
+
+    
     <div class="drawer-body" id="cart-items-container">
-      <!-- Populated dynamically via JS -->
       <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
         Your cart is empty.
       </div>
@@ -153,9 +169,29 @@
         <span>Total Payable</span>
         <span id="cart-total-display">0 THB</span>
       </div>
-      <button class="btn btn-primary" id="checkout-cart-btn" disabled>Proceed to Verification</button>
+      <button class="btn btn-primary" id="checkout-cart-btn" style="width: 100%; height: 50px;" disabled>
+        Book Equipment
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="bg-surface-container-high border-t border-outline-variant" style="background-color: var(--surface-high); border-top: 1px solid var(--border-color); margin-top: auto; padding: 48px 0;">
+    <div style="max-width: var(--max-width); margin: 0 auto; padding: 0 var(--margin); display: grid; grid-template-columns: 1fr; gap: var(--gutter); align-items: start;">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);">
+            <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+            <circle cx="12" cy="13" r="3"/>
+          </svg>
+          <span style="font-size: 18px; font-weight: 700;">Daily Lens & Gear</span>
+        </div>
+        <p class="font-body-md" style="color: var(--text-secondary); max-width: 400px;">Providing high-performance optical solutions for cinematography, photography, and creative professionals across SE Asia.</p>
+        <p class="font-label-sm" style="color: var(--text-secondary); margin-top: 16px;">© 2026 Daily Lens & Gear. Professional Rental Ecosystem.</p>
+      </div>
+    </div>
+  </footer>
 
   <!-- Client-side JS -->
   <script src="/js/app.js"></script>

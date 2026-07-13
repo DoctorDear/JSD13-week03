@@ -3,135 +3,142 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - leaseycam</title>
+  <title>Admin Dashboard - Daily Lens & Gear</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-  <!-- Navigation Header -->
+  <!-- TopNavBar Header -->
   <header>
-    <a href="/" class="logo">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="logo-accent">
-        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
-        <circle cx="12" cy="13" r="3"/>
-      </svg>
-      <span>leaseycam</span><span class="logo-dot"></span>
-    </a>
-    
-    <ul class="nav-links">
-      <li><a href="/">Catalog</a></li>
-      <li><a href="/terms.html">How it works</a></li>
-      <li><a href="/bookings.html" id="bookings-link" style="display: none;">My Bookings</a></li>
-      <li><a href="/admin.html" class="active" id="admin-link" style="display: none;">Admin Panel</a></li>
-    </ul>
-
-    <div class="nav-actions">
-      <!-- Dark mode toggle -->
-      <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Theme">
-        <svg id="theme-sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
-          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    <div class="header-container">
+      <a href="/" class="logo-wrapper">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);">
+          <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+          <circle cx="12" cy="13" r="3"/>
         </svg>
-        <svg id="theme-moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
+        <span class="logo-text">Daily Lens & Gear</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="/">Catalog</a></li>
+        <li><a href="/terms.html">How it works</a></li>
+        <li><a href="/bookings.html" id="bookings-link" style="display: none;">My Bookings</a></li>
+        <li><a href="/admin.html" class="active" id="admin-link" style="display: none;">Admin Panel</a></li>
+      </ul>
 
-      <div class="user-status" id="auth-status-container"></div>
+      <div class="nav-actions">
+        <!-- Theme Toggle -->
+        <button class="icon-btn" id="theme-toggle-btn" aria-label="Toggle Theme">
+          <span class="material-symbols-outlined" id="theme-moon-icon">dark_mode</span>
+          <span class="material-symbols-outlined" id="theme-sun-icon" style="display:none;">light_mode</span>
+        </button>
+
+        <div class="user-status" id="auth-status-container"></div>
+      </div>
     </div>
   </header>
 
-  <!-- Admin Dashboard Container -->
-  <main>
-    <h1 style="font-size: 2rem; margin-bottom: 30px; font-family: var(--font-display);">Admin Dashboard</h1>
-
-    <!-- Overview Metrics Row -->
-    <section class="admin-metrics">
+  <!-- Admin Portal Main Dashboard Content -->
+  <main style="display: flex; flex-direction: column; gap: 32px;">
+    <!-- Section 1: Dashboard Stats Metrics -->
+    <section class="metrics-grid">
+      <!-- Active Rentals Card -->
       <div class="metric-card">
-        <span class="metric-label">Pending Verifications</span>
-        <span class="metric-value" id="metric-pending-count">0</span>
+        <div class="metric-icon active">
+          <span class="material-symbols-outlined" style="font-size: 32px;">camera_roll</span>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Active Rentals</span>
+          <h3 class="metric-value" id="metric-active-count">0</h3>
+        </div>
       </div>
+      <!-- Pending Bookings Card -->
       <div class="metric-card">
-        <span class="metric-label">Active Rentals</span>
-        <span class="metric-value" id="metric-active-count">0</span>
+        <div class="metric-icon">
+          <span class="material-symbols-outlined" style="font-size: 32px;">pending_actions</span>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Pending Bookings</span>
+          <h3 class="metric-value" id="metric-pending-count">0</h3>
+        </div>
       </div>
+      <!-- Total Earnings Card -->
       <div class="metric-card">
-        <span class="metric-label">Monthly Rental Revenue</span>
-        <span class="metric-value" id="metric-earnings-total">0 THB</span>
+        <div class="metric-icon earnings">
+          <span class="material-symbols-outlined" style="font-size: 32px;">payments</span>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Total Earnings</span>
+          <h3 class="metric-value" id="metric-earnings-total">0 THB</h3>
+        </div>
       </div>
     </section>
 
-    <!-- Content Split Layout -->
-    <div class="admin-grid-layout">
-      <!-- Bookings Management Section -->
-      <section class="admin-section">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1.5px solid var(--border-color); padding-bottom: 12px; flex-wrap: wrap; gap: 15px;">
-          <h2 style="border:none; margin:0; padding:0;">Orders Management</h2>
-          <div class="booking-tabs" style="margin:0;">
-            <button class="booking-tab-btn active" id="admin-tab-pending">Pending Verification</button>
-            <button class="booking-tab-btn" id="admin-tab-history">All Rentals</button>
-          </div>
+    <!-- Section 2: Order Approvals Panel -->
+    <section class="checkout-card" style="margin-bottom: 0; padding: 0; overflow: hidden;">
+      <div style="padding: 24px; border-bottom: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 16px; justify-content: space-between; align-items: stretch; flex-wrap: wrap;">
+        <div>
+          <h2 class="font-headline-md" style="color: var(--text-primary); margin-bottom: 4px;">Order Approvals</h2>
+          <p class="font-body-md" style="color: var(--text-secondary);">Manage incoming equipment requests and active rental lifecycles.</p>
         </div>
+        <!-- Booking Tabs -->
+        <div class="booking-tabs" style="border-bottom: none; margin-bottom: 0;">
+          <button class="booking-tab-btn active" id="admin-tab-pending">Pending Requests</button>
+          <button class="booking-tab-btn" id="admin-tab-history">All Bookings</button>
+        </div>
+      </div>
 
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Renter Name</th>
-                <th>Verification ID</th>
-                <th>Equipment</th>
-                <th>Duration / Dates</th>
-                <th>Total Price</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="admin-orders-table-body">
-              <tr>
-                <td colspan="7" style="text-align: center; color: var(--text-secondary); padding: 30px;">
-                  Loading booking requests...
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <!-- Orders Approvals Table -->
+      <div class="admin-orders-table-wrapper" style="border: none; border-radius: 0;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Document</th>
+              <th>Gear Details</th>
+              <th>Period</th>
+              <th>Pricing Details</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-orders-table-body">
+            <tr>
+              <td colspan="7" style="text-align: center; color: var(--text-secondary); padding: 40px;">
+                Loading bookings...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-      <!-- Stock / Inventory Controller Section -->
-      <section class="admin-section">
-        <h2>Inventory Stock controller</h2>
-        
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Equipment Name</th>
-                <th>Brand</th>
-                <th>Category</th>
-                <th>Daily Rate (THB)</th>
-                <th>Availability Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="admin-inventory-table-body">
-              <tr>
-                <td colspan="6" style="text-align: center; color: var(--text-secondary); padding: 30px;">
-                  Loading inventory database...
-                </td>
-              </tr>
-            </tbody>
-          </table>
+    <!-- Section 3: Inventory Manager -->
+    <section class="checkout-card" style="margin-bottom: 0; padding: 0; overflow: hidden;">
+      <div style="padding: 24px; border-bottom: 1px solid var(--border-color);">
+        <h2 class="font-headline-md" style="color: var(--text-primary); margin-bottom: 4px;">Inventory Manager</h2>
+        <p class="font-body-md" style="color: var(--text-secondary);">Adjust equipment availability, pricing, and required deposits.</p>
+      </div>
+
+      <!-- Inventory list dynamic container -->
+      <div class="inventory-list" id="admin-inventory-table-body" style="border: none; border-radius: 0;">
+        <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+          Loading inventory...
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   </main>
 
-  <!-- Fullscreen ID Image Preview Modal -->
-  <div class="modal" id="image-modal">
-    <span class="modal-close" id="close-modal-btn">&times;</span>
-    <img class="modal-content" id="modal-image-el" alt="ID Card Preview Fullsize">
+  <!-- Document View Preview Modal -->
+  <div class="image-modal" id="image-modal">
+    <div class="modal-content">
+      <button class="close-modal-btn" id="close-modal-btn">
+        <span class="material-symbols-outlined" style="font-size: 36px;">close</span>
+      </button>
+      <img id="modal-image-el" src="" alt="Identity Card Document Preview">
+    </div>
   </div>
 
-  <!-- Client-side JS -->
   <script src="/js/app.js"></script>
   <script src="/js/admin.js"></script>
 </body>

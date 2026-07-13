@@ -482,11 +482,20 @@ async function seedDatabase() {
 
     // Seed equipment
     console.log("Seeding Equipment...");
+    const fs = require('fs');
     const seededEquipment = equipmentData.map(item => {
-      if (item.category === 'Body') item.imageUrl = '/images/body.png';
-      else if (item.category === 'Lens') item.imageUrl = '/images/lens.png';
-      else if (item.category === 'Flash') item.imageUrl = '/images/flash.png';
-      else if (item.category === 'Adapter') item.imageUrl = '/images/adapter.png';
+      const slug = item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.jpg';
+      const relativePath = '/images/products/' + slug;
+      const absolutePath = path.join(__dirname, '..', 'web', 'images', 'products', slug);
+
+      if (fs.existsSync(absolutePath)) {
+        item.imageUrl = relativePath;
+      } else {
+        if (item.category === 'Body') item.imageUrl = '/images/body.png';
+        else if (item.category === 'Lens') item.imageUrl = '/images/lens.png';
+        else if (item.category === 'Flash') item.imageUrl = '/images/flash.png';
+        else if (item.category === 'Adapter') item.imageUrl = '/images/adapter.png';
+      }
       return item;
     });
     await Equipment.insertMany(seededEquipment);
